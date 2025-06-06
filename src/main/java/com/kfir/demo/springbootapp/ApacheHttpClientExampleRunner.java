@@ -15,6 +15,7 @@ import org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManager;
 import org.apache.hc.client5.http.socket.ConnectionSocketFactory;
 import org.apache.hc.client5.http.socket.PlainConnectionSocketFactory;
 import org.apache.hc.client5.http.ssl.SSLConnectionSocketFactory;
+import org.apache.hc.client5.http.ssl.SSLConnectionSocketFactoryBuilder;
 import org.apache.hc.core5.http.config.RegistryBuilder;
 import org.apache.hc.core5.ssl.SSLContexts;
 import org.apache.hc.core5.ssl.TrustStrategy;
@@ -66,7 +67,9 @@ public class ApacheHttpClientExampleRunner implements CommandLineRunner {
           .loadTrustMaterial(null, acceptingTrustStrategy)
           .build();
 
-      SSLConnectionSocketFactory csf = new SSLConnectionSocketFactory(sslContext);
+      SSLConnectionSocketFactory csf = SSLConnectionSocketFactoryBuilder.create()
+          .setSslContext(sslContext)
+          .build();
 
       ConnectionConfig connConfig = ConnectionConfig.custom()
           .setConnectTimeout(5000, TimeUnit.MILLISECONDS)
