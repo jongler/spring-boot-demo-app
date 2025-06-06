@@ -1,7 +1,6 @@
-package com.kfir.demo.springbootapp;
+package com.kfir.demo.springbootapp.spring.configuration;
 
 import com.kfir.demo.springbootapp.client.JsonPlaceHolderClient;
-import com.kfir.demo.springbootapp.model.PostPayload;
 import java.security.KeyManagementException;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
@@ -21,56 +20,18 @@ import org.apache.hc.core5.http.config.RegistryBuilder;
 import org.apache.hc.core5.ssl.SSLContexts;
 import org.apache.hc.core5.ssl.TrustStrategy;
 import org.apache.hc.core5.util.Timeout;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseEntity;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
-import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
-@Component
-public class ApacheHttpClientExampleRunner implements CommandLineRunner {
+@Configuration
+public class AppConfig {
 
-  private final JsonPlaceHolderClient jsonPlaceHolderClient;
-
-  public ApacheHttpClientExampleRunner(JsonPlaceHolderClient jsonPlaceHolderClient) {
-    this.jsonPlaceHolderClient = jsonPlaceHolderClient;
-  }
-
-  @Override
-  public void run(String... args) {
-    PostPayload postPayloadResp = jsonPlaceHolderClient.getPost(1);
-    System.out.println("** GET Post Payload: " + postPayloadResp);
-
-    PostPayload postPayloadToPost = new PostPayload("foo", "bar", 1, 10);
-    postPayloadResp = jsonPlaceHolderClient.postPost(postPayloadToPost);
-    System.out.println("** POST Post Payload: " + postPayloadResp);
-//
-//    RestTemplate restTemplate = buildRestTemplate();
-//    // GET request
-//    String getUrl = "https://jsonplaceholder.typicode.com/posts/1";
-//    ResponseEntity<PostPayload> getResponse = restTemplate.getForEntity(getUrl, PostPayload.class);
-//    System.out.println("** GET Response Status: " + getResponse.getStatusCode());
-//    System.out.println("** GET Response Body: " + getResponse.getBody());
-//
-//    // POST request - request/response as String
-//    String postUrl = "https://jsonplaceholder.typicode.com/posts";
-//    HttpHeaders headers = new HttpHeaders();
-//    headers.set("Content-Type", "application/json");
-//    String json = "{\"title\": \"foo\", \"body\": \"bar\", \"userId\": 1}";
-//    HttpEntity<String> postEntity = new HttpEntity<>(json, headers);
-//
-//    ResponseEntity<String> postResponse = restTemplate.postForEntity(postUrl, postEntity, String.class);
-//    System.out.println("** POST Response Status: " + postResponse.getStatusCode());
-//    System.out.println("** POST Response Body: " + postResponse.getBody());
-//
-//    // POST request - request/response as MyBody
-//    PostPayload postPayload = new PostPayload("foo", "bar", 1, 10);
-//    HttpEntity<PostPayload> postEntity2 = new HttpEntity<>(postPayload, headers);
-//    ResponseEntity<PostPayload> postResponse2 = restTemplate.postForEntity(postUrl, postEntity2, PostPayload.class);
-//    System.out.println("** POST Response Status2: " + postResponse2.getStatusCode());
-//    System.out.println("** POST Response Body2: " + postResponse2.getBody());
+  @Bean
+  public JsonPlaceHolderClient jsonPlaceHolderClient() {
+    RestTemplate restTemplate = buildRestTemplate();
+    return new JsonPlaceHolderClient(restTemplate);
   }
 
   private RestTemplate buildRestTemplate() {
@@ -113,4 +74,5 @@ public class ApacheHttpClientExampleRunner implements CommandLineRunner {
       throw new RuntimeException(e);
     }
   }
+
 }
