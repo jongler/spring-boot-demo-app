@@ -40,7 +40,7 @@ public class ApacheHttpClientExampleRunner implements CommandLineRunner {
 
   @Override
   public void run(String... args) {
-    PostPayload postPayloadResp = jsonPlaceHolderClient.getPost(1);
+    PostPayload postPayloadResp = jsonPlaceHolderClient.getPost(2);
     System.out.println("** GET Post Payload: " + postPayloadResp);
 
     PostPayload postPayloadToPost = new PostPayload("foo", "bar", 1, 10);

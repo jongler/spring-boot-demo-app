@@ -9,7 +9,7 @@ import org.springframework.web.client.RestTemplate;
 public class JsonPlaceHolderClient {
 
   private static final String BASE_URL = "http://jsonplaceholder.typicode.com";
-  private static final String GET_POSTS_URL = BASE_URL + "/posts/1";
+  private static final String GET_POSTS_URL = BASE_URL + "/posts/{postId}";
   private static final String POST_POSTS_URL = BASE_URL + "/posts";
 
   private final RestTemplate restTemplate;
@@ -19,8 +19,7 @@ public class JsonPlaceHolderClient {
   }
 
   public PostPayload getPost(int postId) {
-    String url = GET_POSTS_URL;
-    ResponseEntity<PostPayload> getResponse = restTemplate.getForEntity(url, PostPayload.class);
+    ResponseEntity<PostPayload> getResponse = restTemplate.getForEntity(GET_POSTS_URL, PostPayload.class, postId);
     return getResponse.getBody();
   }
 
