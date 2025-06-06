@@ -25,9 +25,9 @@ public class JsonPlaceHolderClient {
   }
 
   public PostPayload postPost(PostPayload postPayload) {
-    HttpHeaders headers = new HttpHeaders();
-    headers.set("Content-Type", "application/json");
-    HttpEntity<PostPayload> postEntity = new HttpEntity<>(postPayload, headers);
+//    HttpHeaders headers = new HttpHeaders();
+//    headers.set("Content-Type", "application/json");
+    HttpEntity<PostPayload> postEntity = new HttpEntity<>(postPayload);
     ResponseEntity<PostPayload> postResponse = restTemplate.postForEntity(POST_POSTS_URL, postEntity, PostPayload.class);
     return postResponse.getBody();
   }
